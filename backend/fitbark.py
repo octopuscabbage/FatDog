@@ -2,36 +2,24 @@ import requests
 import json
 from util import *
 
-class Dog:
-    def __info__(self,name,id):
-        self.name = name
-        self.id = id
-        self.log = []
-    def add_log(self,entry):
-        self.log.append(entry)
-    
-class LogEntry:
-    def __info__(self,date,activity,target):
-       self.date = date
-       self.activity = activity
-       self.target = target
-
 test_token = "29deef75ecf5b43d012d05bec21b43acba0c20215350930e9ac9890e966d5ceb"
 test_dog = 1727
 
 def get_dog_data(token):
     ''''Gets Dog Objects based on a users token'''
     dogs = get_related_dogs(token)
-    dog_objs = map(lambda d: {'name': d['dog']['name'],'id':d['dog']['id'] },dogs['dog_relations'])
+    dog_dicts = map(lambda d: {'name': d['dog']['name'],'id':d['dog']['id'] },dogs['dog_relations'])
     for dog in dog_objs:
        activity_series = get_activity_series(token,dog['id']) 
-       if('status' in activity_series):
+       if('status' in activity_series and activity_series['status'] == 'BAD'):
+           #Means there isn't any data
+           log['log'] = []
            continue
-       dog['log'] = []
+
        for entry in activity_series['records']:
            dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target']})
        
-    return dog_objs
+    return dog_dicts
         
     
 class endpoints:
