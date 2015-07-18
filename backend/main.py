@@ -1,7 +1,7 @@
 import os
-from flask import Flask
+from flask.ext.api import FlaskAPI
 
-app = Flask (__name__)
+app = FlaskAPI(__name__)
 
 @app.route("/")
 def hello():
