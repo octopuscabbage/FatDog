@@ -9,11 +9,11 @@ def get_dog_data(token):
     ''''Gets Dog Objects based on a users token'''
     dogs = get_related_dogs(token)
     dog_dicts = map(lambda d: {'name': d['dog']['name'],'id':d['dog']['id'] },dogs['dog_relations'])
-    for dog in dog_objs:
+    for dog in dog_dicts:
        activity_series = get_activity_series(token,dog['id']) 
-       if('status' in activity_series and activity_series['status'] == 'BAD'):
+       if('status' in activity_series):
            #Means there isn't any data
-           log['log'] = []
+           dog['log'] = []
            continue
 
        for entry in activity_series['records']:
@@ -38,7 +38,7 @@ def get_activity_series(token,dog_id):
     return __guarded_json_load(response.text)
     
 def __make_post_data(id):
-    return json.dumps({"activity_series": {"dog_id": str(id),"from": str(n_months_ago(1)), "to" : str(current_date()),'resolution':'HOURLY' }} )
+    return json.dumps({"activity_series": {"dog_id": str(id),"from": str(n_months_ago(1)), "to" : str(current_date()),'resolution':'DAILY' }} )
     
 
 def __guarded_json_load(text):
