@@ -24,6 +24,7 @@ class fitbark_endpoints:
 
 @app.route(fitbark_endpoints.dog_picture)
 def dog_picture(key,id):
+    return {"key":key,"id":id}
     return get_dog_picture(key,id)
 
 @app.route(fitbark_endpoints.dog_info)
