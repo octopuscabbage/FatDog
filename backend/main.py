@@ -9,5 +9,4 @@ def hello():
     
 @app.route("/test")
 def example():
-    return {"yo":"it works"
-}
+    return {"yo":"it works"}
