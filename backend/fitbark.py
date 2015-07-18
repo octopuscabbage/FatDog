@@ -16,7 +16,7 @@ def get_dog_data(token):
            #Means there isn't any data
            continue
 
-       for entry in activity_series['records']:
+       for entry in activity_series['activity_series']['records']:
            dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target']})
        
     return dog_dicts
