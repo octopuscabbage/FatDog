@@ -1,5 +1,4 @@
 from flask import Flask, request
-from flask_restful import Resource, Api
 import fitbit
 import json
 import datetime
@@ -9,22 +8,26 @@ encoded_user_id = '36CRJ7'
 oauth_token = '16723100b0e0f204b95702101223ee15'
 oauth_token_secret = '8e7f56ee1d4a64713606ee10a80fd08c'
 
-app = Flask(__name__)
-api = Api(app)
 human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=oauth_token, resource_owner_secret=oauth_token_secret)
 
-class get_human(Resource):
-	def get(self):
-		data = human.time_series('activities/steps', period='max')
-		goal_steps = human.activities_daily_goal()['goals']['steps']
-		outlist = []
-		for entry in data["activities-steps"]:
-			output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
-			outlist.append(output_dict)
-		return [{"log": outlist}]
-
-api.add_resource(get_human, '/human')
+def get_human():
+        data = human.time_series('activities/steps', period='max')
+	goal_steps = human.activities_daily_goal()['goals']['steps']
+	outlist = []
+	for entry in data["activities-steps"]:
+		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
+		outlist.append(output_dict)
+	return [{"log": outlist}]
 
 
-if __name__ == '__main__':
-	app.run(debug=True)
+def human_oauth(public,secret):
+        oauth_human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=public, resource_owner_secret=secret)
+        data = oauth_human.time_series('activities/steps', period='max')
+	goal_steps = oauth_human.activities_daily_goal()['goals']['steps']
+	outlist = []
+	for entry in data["activities-steps"]:
+		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
+		outlist.append(output_dict)
+	return [{"log": outlist}]
+
+
