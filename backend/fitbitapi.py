@@ -12,10 +12,18 @@ human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=oauth_to
 
 def get_human():
         data = human.time_series('activities/steps', period='max')
+        sedentary_data = human.time_series('activities/minutesSedentary', period='max')
+        lightlyActive_data = human.time_series('activities/minutesLightlyActive', period='max')
+        fairlyActive_data = human.time_series('activities/minutesFairlyActive', period='max')
+        veryActive_data = human.time_series('activities/minutesVeryActive', period='max')
 	goal_steps = human.activities_daily_goal()['goals']['steps']
 	outlist = []
-	for entry in data["activities-steps"]:
-		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps, 'percent_done': float(entry['value']) / float(goal_steps) * 100}
+	for entry, sedEntry, lightEntry, fairEntry, veryEntry in zip(data["activities-steps"], 
+		sedentary_data["activities-minutesSedentary"],
+		lightlyActive_data["activities-minutesLightlyActive"],
+		fairlyActive_data["activities-minutesFairlyActive"],
+		veryActive_data["activities-minutesVeryActive"]):
+		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps, "Play": veryEntry["value"], "Active": (int(fairEntry["value"]) + int(lightEntry["value"])), "Rest": sedEntry["value"]}
 		outlist.append(output_dict)
 	return [{"log": outlist}]
 
