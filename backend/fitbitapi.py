@@ -24,7 +24,7 @@ def get_human():
 		lightlyActive_data["activities-minutesLightlyActive"],
 		fairlyActive_data["activities-minutesFairlyActive"],
 		veryActive_data["activities-minutesVeryActive"]):
-		output_dict = {"date": entry["dateTime"], "activity": int(entry["value"]), "target": goal_steps, "min_play": int(veryEntry["value"]), "min_active": int(fairEntry["value"]) + int(lightEntry["value"]), "min_rest": int(sedEntry["value"]), 'percent_done': (int(entry['value']) * 100) / int(goal_steps))}
+		output_dict = {"date": entry["dateTime"], "activity": int(entry["value"]), "target": goal_steps, "min_play": int(veryEntry["value"]), "min_active": int(fairEntry["value"]) + int(lightEntry["value"]), "min_rest": int(sedEntry["value"]), 'percent_done': float(entry['value']) / float(goal_steps) * 100}
 		outlist.append(output_dict)
 	return [{"log": outlist, "id": user_data["encodedId"], "name": user_data["fullName"]}]
 
