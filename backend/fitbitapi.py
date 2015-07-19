@@ -16,23 +16,21 @@ human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=oauth_to
 class human_steps_day(Resource):
 	def get(self):
 		steps = human.time_series('activities/steps', period='1d')
-		return steps["activities-steps"][0]["value"]
-
+		return steps
 class human_steps_week(Resource):
 	def get(self):
-		steps = human.time_series('activities/steps', base_date=(datetime.date.today() - datetime.timedelta(days=7)), period='7d')
-		total = 0
-		for day in steps["activities-steps"]:
-			total += int(day['value'])
-		return total
+		steps = human.time_series('activities/steps', period='7d')
+		return steps
 
-class human_steps_month(Resource):
+class get_human(Resource):
 	def get(self):
-		steps = human.time_series('activities/steps', base_date=(datetime.date.today() - datetime.timedelta(days=30)), period='1m')
-		total = 0
-		for day in steps["activities-steps"]:
-			total += int(day['value'])
-		return total
+		data = human.time_series('activities/steps', period='max')
+		goal_steps = human.activities_daily_goal()['goals']['steps']
+		outlist = []
+		for entry in data["activities-steps"]:
+			output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
+			outlist.append(output_dict)
+		return outlist
 
 class human_goals(Resource):
 	def get(self):
@@ -42,7 +40,7 @@ class human_goals(Resource):
 api.add_resource(human_steps_day, '/human_steps/day')
 api.add_resource(human_goals, '/human_goals/')
 api.add_resource(human_steps_week, '/human_steps/week')
-api.add_resource(human_steps_month, '/human_steps/month')
+api.add_resource(get_human, '/human')
 
 
 if __name__ == '__main__':

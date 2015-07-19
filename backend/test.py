@@ -1,5 +1,6 @@
 import fitbit
 from pprint import pprint
+import datetime
 consumer_key = 'bb9e358028304057825d8a01b44bdc47'
 consumer_secret = 'ca6cb45ff7af4c869d2987b7384a5184'
 encoded_user_id = '36CRJ7'
@@ -14,6 +15,6 @@ authd_client = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=o
 
 # pprint(authd_client.activities_list())
 #prints daily goal
-pprint(authd_client.activities_daily_goal())
+pprint(authd_client.activities_daily_goal()['goals']['steps'])
 
-pprint(authd_client.time_series('activities/steps', period='1d'))
+#pprint(authd_client.time_series('activities/steps', base_date=(datetime.date.today() - datetime.timedelta(days=7)), period='7d'))
