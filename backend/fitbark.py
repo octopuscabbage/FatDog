@@ -17,9 +17,8 @@ def get_dog_data(token):
            continue
 
        for entry in activity_series['activity_series']['records']:
-           dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target'], 'percent_done' : float(entry['activity_value']) / float(entry['daily_target']) * 100})
+           dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target'], 'percent_done' : float(entry['activity_value']) / float(entry['daily_target']) * 100, 'min_play': entry['min_play'], 'min_active' : entry['min_active'], 'min_rest' : entry['min_rest']})
     return dog_dicts
-        
     
 class endpoints:
     base =  "http://app.fitbark.com/api/v1/"
