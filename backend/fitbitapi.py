@@ -11,11 +11,11 @@ oauth_token_secret = '8e7f56ee1d4a64713606ee10a80fd08c'
 human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=oauth_token, resource_owner_secret=oauth_token_secret)
 
 def get_human():
-        data = human.time_series('activities/steps', period='max')
-        sedentary_data = human.time_series('activities/minutesSedentary', period='max')
-        lightlyActive_data = human.time_series('activities/minutesLightlyActive', period='max')
-        fairlyActive_data = human.time_series('activities/minutesFairlyActive', period='max')
-        veryActive_data = human.time_series('activities/minutesVeryActive', period='max')
+        data = human.time_series('activities/steps', period='30d')
+        sedentary_data = human.time_series('activities/minutesSedentary', period='30d')
+        lightlyActive_data = human.time_series('activities/minutesLightlyActive', period='30d')
+        fairlyActive_data = human.time_series('activities/minutesFairlyActive', period='30d')
+        veryActive_data = human.time_series('activities/minutesVeryActive', period='30d')
 	goal_steps = human.activities_daily_goal()['goals']['steps']
 	user_data = human.user_profile_get()["user"]
 	outlist = []
