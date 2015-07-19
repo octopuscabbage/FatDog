@@ -17,8 +17,7 @@ def get_dog_data(token):
            continue
 
        for entry in activity_series['activity_series']['records']:
-           dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target']})
-       
+           dog['log'].append({'date' : entry['date'], 'activity' : entry['activity_value'], 'target' : entry['daily_target'], 'percent_done' : int(entry['activity_value']) / int(entry['daily_target'])})
     return dog_dicts
         
     

@@ -26,7 +26,7 @@ def human_oauth(public,secret):
 	goal_steps = oauth_human.activities_daily_goal()['goals']['steps']
 	outlist = []
 	for entry in data["activities-steps"]:
-		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
+		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps, 'percent_done' : int(entry["value"]) / int(goal_steps)}
 		outlist.append(output_dict)
 	return [{"log": outlist}]
 
