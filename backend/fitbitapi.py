@@ -23,7 +23,7 @@ def get_human():
 		lightlyActive_data["activities-minutesLightlyActive"],
 		fairlyActive_data["activities-minutesFairlyActive"],
 		veryActive_data["activities-minutesVeryActive"]):
-		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps, "Play": veryEntry["value"], "Active": (int(fairEntry["value"]) + int(lightEntry["value"])), "Rest": sedEntry["value"]}
+		output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps, "play": veryEntry["value"], "active": str(int(fairEntry["value"]) + int(lightEntry["value"])), "rest": sedEntry["value"]}
 		outlist.append(output_dict)
 	return [{"log": outlist}]
 
