@@ -17,6 +17,7 @@ def get_human():
         fairlyActive_data = human.time_series('activities/minutesFairlyActive', period='max')
         veryActive_data = human.time_series('activities/minutesVeryActive', period='max')
 	goal_steps = human.activities_daily_goal()['goals']['steps']
+	user_data = human.user_profile_get()["user"]
 	outlist = []
 	for entry, sedEntry, lightEntry, fairEntry, veryEntry in zip(data["activities-steps"], 
 		sedentary_data["activities-minutesSedentary"],
@@ -25,7 +26,7 @@ def get_human():
 		veryActive_data["activities-minutesVeryActive"]):
 		output_dict = {"date": entry["dateTime"], "activity": int(entry["value"]), "target": goal_steps, "play": int(veryEntry["value"]), "active": int(fairEntry["value"]) + int(lightEntry["value"]), "rest": int(sedEntry["value"])}
 		outlist.append(output_dict)
-	return [{"log": outlist}]
+	return [{"log": outlist, "id": user_data["encodedId"], "name": user_data["fullName"]}]
 
 
 def human_oauth(public,secret):

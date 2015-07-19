@@ -15,6 +15,4 @@ authd_client = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=o
 
 # pprint(authd_client.activities_list())
 #prints daily goal
-pprint(authd_client.activities_daily_goal()['goals']['steps'])
-
-#pprint(authd_client.time_series('activities/steps', base_date=(datetime.date.today() - datetime.timedelta(days=7)), period='7d'))
+pprint(authd_client.user_profile_get())
