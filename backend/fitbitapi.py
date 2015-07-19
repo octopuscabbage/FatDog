@@ -13,15 +13,6 @@ app = Flask(__name__)
 api = Api(app)
 human = fitbit.Fitbit(consumer_key, consumer_secret, resource_owner_key=oauth_token, resource_owner_secret=oauth_token_secret)
 
-class human_steps_day(Resource):
-	def get(self):
-		steps = human.time_series('activities/steps', period='1d')
-		return steps
-class human_steps_week(Resource):
-	def get(self):
-		steps = human.time_series('activities/steps', period='7d')
-		return steps
-
 class get_human(Resource):
 	def get(self):
 		data = human.time_series('activities/steps', period='max')
@@ -30,16 +21,8 @@ class get_human(Resource):
 		for entry in data["activities-steps"]:
 			output_dict = {"date": entry["dateTime"], "activity": entry["value"], "target": goal_steps}
 			outlist.append(output_dict)
-		return outlist
+		return [{"log": outlist}]
 
-class human_goals(Resource):
-	def get(self):
-		goals = human.activities_daily_goal()
-		return goals
-
-api.add_resource(human_steps_day, '/human_steps/day')
-api.add_resource(human_goals, '/human_goals/')
-api.add_resource(human_steps_week, '/human_steps/week')
 api.add_resource(get_human, '/human')
 
 
